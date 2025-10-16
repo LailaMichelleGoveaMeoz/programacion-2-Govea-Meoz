@@ -105,7 +105,7 @@ struct Hospital {
 };
 
 int main(){
-	int opcionpacientesw;
+	int opcionpacientesw=0;
 	int opciondoctorsw;
 	int opcioncitasw;
 	int opciongestion = 0;
@@ -131,6 +131,7 @@ switch (opciongestion){
 		cin>>opcionpacientesw;
 		
 		switch (opcionpacientesw){
+			while(opcionpacientesw != 0){
 			case 1:
 				cout<<"aqui se encuentra su menu de pacientes"<<endl;
 			break;
@@ -161,7 +162,7 @@ switch (opciongestion){
 			
 			case 0:
 				cout<<"Volviendo al menu principal"<<endl;
-			
+		}			
 		} 
 		
 		break;
