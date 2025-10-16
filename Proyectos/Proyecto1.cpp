@@ -11,27 +11,15 @@ void imprimirOpciones(){
 	cout<<"Ingrese la opcion que desee:"<<endl;
 };
 
-struct Hospital {
-    char nombre[100];
-    char direccion[150];
-    char telefono[15];
-    
-    Paciente* pacientes;
-    int cantidadPacientes;
-    int capacidadPacientes;
-    
-    Doctor* doctores;
-    int cantidadDoctores;
-    int capacidadDoctores;
-    
-    Cita* citas;
-    int cantidadCitas;
-    int capacidadCitas;
-    
-    int siguienteIdPaciente;
-    int siguienteIdDoctor;
-    int siguienteIdCita;
-    int siguienteIdConsulta;
+struct HistorialMedico {
+    int idConsulta;
+    char fecha[11];
+    char hora[6];
+    char diagnostico[200];
+    char tratamiento[200];
+    char medicamentos[150];
+    int idDoctor;
+    float costo;
 };
 
 struct Paciente {
@@ -53,22 +41,9 @@ struct Paciente {
     int* citasAgendadas;
     int cantidadCitas;
     int capacidadCitas;
-    
     char alergias[500];
     char observaciones[500];
-    
     bool activo;
-};
-
-struct HistorialMedico {
-    int idConsulta;
-    char fecha[11];
-    char hora[6];
-    char diagnostico[200];
-    char tratamiento[200];
-    char medicamentos[150];
-    int idDoctor;
-    float costo;
 };
 
 struct Doctor {
@@ -104,6 +79,29 @@ struct Cita {
     char estado[20];
     char observaciones[200];
     bool atendida;
+};
+
+struct Hospital {
+    char nombre[100];
+    char direccion[150];
+    char telefono[15];
+    
+    Paciente* pacientes;
+    int cantidadPacientes;
+    int capacidadPacientes;
+    
+    Doctor* doctores;
+    int cantidadDoctores;
+    int capacidadDoctores;
+    
+    Cita* citas;
+    int cantidadCitas;
+    int capacidadCitas;
+    
+    int siguienteIdPaciente;
+    int siguienteIdDoctor;
+    int siguienteIdCita;
+    int siguienteIdConsulta;
 };
 
 int main(){
