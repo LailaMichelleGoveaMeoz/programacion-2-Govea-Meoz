@@ -1,4 +1,4 @@
-#include<iostream>
+#include<iostream>;
 using namespace std;
 
 void imprimirOpciones(){
@@ -10,6 +10,56 @@ void imprimirOpciones(){
 	cout<<"4. Salir"<< endl;
 	cout<<"Ingrese la opcion que desee:"<<endl;
 };
+
+void CrearListaDePaciente(int CantidadInicial){
+	Paciente* pacientes= new Paciente [CantidadInicial];
+	cout<<"Ingrese los datos de las personas"<<endl;
+	for (int i=0; i<CantidadInicial; i++){
+		cout<<"persona:"<<(i+1)<<endl;
+		cout<<"Nombres:"<<endl;
+		cin.ignore();
+        getline(cin, personas[i].nombre);
+		cout<<"Apellidos:"<<endl;
+		cin.ignore();
+        getline(cin, personas[i].apellidos);
+        cout << "  Edad: ";
+        cin >> personas[i].edad;
+        cout << " ID: ";
+        cin >> personas[i].id;
+        cout << " Cedula: ";
+        cin >> personas[i].cedula;
+        cout << " Sexo: ";
+        cin >> personas[i].sexo;
+        cout << " Tipo de sangre: ";
+        cin >> personas[i].TipoSangre;
+        cout << "  Edad: ";
+        cin >> personas[i].edad;
+	}}
+Redimensionar(){
+//Aqui Va lo del examen
+}
+void AniadirPaciente(){
+	Redimensionar(cantidadActual + 1)
+	cout<<"persona:"<<endl;
+		cout<<"Nombres:"<<endl;
+		cin.ignore();
+        getline(cin, personas[cantidadActual + 1].nombre);
+		cout<<"Apellidos:"<<endl;
+		cin.ignore();
+        getline(cin, personas[i].apellidos);
+        cout << "  Edad: ";
+        cin >> personas[i].edad;
+        cout << " ID: ";
+        cin >> personas[i].id;
+        cout << " Cedula: ";
+        cin >> personas[i].cedula;
+        cout << " Sexo: ";
+        cin >> personas[i].sexo;
+        cout << " Tipo de sangre: ";
+        cin >> personas[i].TipoSangre;
+        cout << "  Edad: ";
+        cin >> personas[i].edad;
+}
 
 struct HistorialMedico {
     int idConsulta;
@@ -120,9 +170,9 @@ switch (opciongestion){
 	case 1:
 		cout<<"Menu de pacientes"<<endl;
 		cout<<"1.Registrar nuevo paciente"<<endl;
-		cout<<"2.Buscar paciente por cédula"<<endl;
+		cout<<"2.Buscar paciente por cï¿½dula"<<endl;
 		cout<<"3.Buscar paciente por nombre"<<endl;
-		cout<<"4.Ver historial médico completo"<<endl;
+		cout<<"4.Ver historial mï¿½dico completo"<<endl;
 		cout<<"5.Actualizar datos del paciente"<<endl;
 		cout<<"6.Listar todos los pacientes"<<endl;
 		cout<<"7.Eliminar paciente"<<endl;
@@ -133,6 +183,10 @@ switch (opciongestion){
 		switch (opcionpacientesw){
 			while(opcionpacientesw != 0){
 			case 1:
+				int cantidad = 0;
+				cout << "Con cuantos pacientes va a iniciar?"
+				cin>>cantidad;
+				CrearListaDePaciente(cantidad)
 				cout<<"aqui se encuentra su menu de pacientes"<<endl;
 			break;
 			
