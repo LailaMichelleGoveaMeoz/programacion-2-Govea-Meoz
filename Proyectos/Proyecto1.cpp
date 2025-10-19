@@ -1,4 +1,4 @@
-#include<iostream>;
+#include<iostream>
 using namespace std;
 
 void imprimirOpciones(){
@@ -18,47 +18,47 @@ void CrearListaDePaciente(int CantidadInicial){
 		cout<<"persona:"<<(i+1)<<endl;
 		cout<<"Nombres:"<<endl;
 		cin.ignore();
-        getline(cin, personas[i].nombre);
+        getline(cin, pacientes[i].nombre);
 		cout<<"Apellidos:"<<endl;
 		cin.ignore();
-        getline(cin, personas[i].apellidos);
+        getline(cin, pacientes[i].apellido);
         cout << "  Edad: ";
-        cin >> personas[i].edad;
+        cin >> pacientes[i].edad;
         cout << " ID: ";
-        cin >> personas[i].id;
+        cin >> pacientes[i].id;
         cout << " Cedula: ";
-        cin >> personas[i].cedula;
+        cin >> pacientes[i].cedula;
         cout << " Sexo: ";
-        cin >> personas[i].sexo;
+        cin >> pacientes[i].sexo;
         cout << " Tipo de sangre: ";
-        cin >> personas[i].TipoSangre;
+        cin >> pacientes[i].tipoSangre;
         cout << "  Edad: ";
-        cin >> personas[i].edad;
+        cin >> pacientes[i].edad;
 	}}
-Redimensionar(){
+int Redimensionar(CantidadInicial){
 //Aqui Va lo del examen
 }
 void AniadirPaciente(){
-	Redimensionar(cantidadActual + 1)
+	Redimensionar(cantidadActual + 1);
 	cout<<"persona:"<<endl;
 		cout<<"Nombres:"<<endl;
 		cin.ignore();
-        getline(cin, personas[cantidadActual + 1].nombre);
+        getline(cin, pacientes[cantidadActual + 1].nombre);
 		cout<<"Apellidos:"<<endl;
 		cin.ignore();
-        getline(cin, personas[i].apellidos);
+        getline(cin, pacientes[i].apellido);
         cout << "  Edad: ";
-        cin >> personas[i].edad;
+        cin >> pacientes[i].edad;
         cout << " ID: ";
-        cin >> personas[i].id;
+        cin >> pacientes[i].id;
         cout << " Cedula: ";
-        cin >> personas[i].cedula;
+        cin >> pacientes[i].cedula;
         cout << " Sexo: ";
-        cin >> personas[i].sexo;
+        cin >> pacientes[i].sexo;
         cout << " Tipo de sangre: ";
-        cin >> personas[i].TipoSangre;
+        cin >> pacientes[i].tipoSangre;
         cout << "  Edad: ";
-        cin >> personas[i].edad;
+        cin >> pacientes[i].edad;
 }
 
 struct HistorialMedico {
