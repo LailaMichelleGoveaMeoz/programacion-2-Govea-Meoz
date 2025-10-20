@@ -186,6 +186,56 @@ Hospital *inicializarHospital ( const char *nombre, const char *direccion, const
 	return hospital;
 }
 
+void redimensionararregloPacientes (Hospital *hospital){
+	int nuevaCapacidad = hospital->capacidadPacientes * 2;
+	Paciente * nuevoarreglo= new Paciente[nuevaCapacidad];
+
+	for (int i=0; i<hospital ->cantidadPacientes; i++){
+		nuevoarreglo [i]= hospital ->pacientes [i];
+	}
+
+	delete [] hospital ->pacientes;
+	hospital ->pacientes= nuevoarreglo;
+	hospital -> capacidadPacientes= nuevaCapacidad;
+}
+
+Paciente *buscarPacientePorCedula(Hospital* hospital, const char* nombre, const char* apellido, const char* cedula, int edad, char sexo){
+if (buscarPacientePorCedula (hospital,cedula) != nullptr){
+	cout<< "Error: La cedula ya esta registrada."<< endl;
+	return nullptr;
+}
+if (hospital ->cantidadPacientes >= hospital ->capacidadPacientes){
+	redimensionararregloPacientes (hospital);
+}
+
+Paciente& nuevo= hospital->pacientes [hospital ->cantidadPacientes];
+
+nuevo.id = hospital ->siguienteIdPaciente++;
+strcpy (nuevo.nombre, nombre, 50);
+strcpy (nuevo.apellido, apellido, 50);
+strcpy (nuevo.cedula, cedula, 20);
+nuevo.edad=edad;
+nuevo.sexo= sexo;
+strcpy (nuevo. tipoSangre, "");
+strcpy (nuevo. telefono, "");
+strcpy (nuevo.direccion, "");
+strcpy (nuevo. email, "");
+strcpy(nuevo.alergias, "");
+strcpy (nuevo.observaciones, "");
+nuevo.activo = true;
+
+nuevo.capacidadHistorial=5;
+nuevo.cantidadConsultas=0;
+nuevo.historial = HistorialMedico[nuevo.capacidadHistorial];
+
+nuevo.capacidadCitas = 5;
+nuevo.cantidadCitas = 0;
+nuevo.citasAgendadas = new int[nuevo.capacidadCitas];
+
+hospital -> cantidadPacientes++;
+return &nuevo;
+}
+
 int main(){
 	int opciongestion = 0;
 	
