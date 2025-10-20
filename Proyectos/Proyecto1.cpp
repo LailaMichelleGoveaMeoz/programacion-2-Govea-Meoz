@@ -1,4 +1,9 @@
 #include<iostream>
+#include<cstring>
+#include<iomanip>
+#include<ctime>
+#include <locale>
+
 using namespace std;
 
 void imprimirOpciones(){
@@ -72,6 +77,18 @@ struct HistorialMedico {
     float costo;
 };
 
+struct Cita {
+    int id;
+    int idPaciente;
+    int idDoctor;
+    char fecha[11];
+    char hora[6];
+    char motivo[150];
+    char estado[20];
+    char observaciones[200];
+    bool atendida;
+};
+
 struct Paciente {
     int id;
     char nombre[50];
@@ -119,18 +136,6 @@ struct Doctor {
     bool disponible;
 };
 
-struct Cita {
-    int id;
-    int idPaciente;
-    int idDoctor;
-    char fecha[11];
-    char hora[6];
-    char motivo[150];
-    char estado[20];
-    char observaciones[200];
-    bool atendida;
-};
-
 struct Hospital {
     char nombre[100];
     char direccion[150];
@@ -154,10 +159,34 @@ struct Hospital {
     int siguienteIdConsulta;
 };
 
+Hospital *inicializarHospital ( const char *nombre, const char *direccion, const char *telefono){
+	Hospital *hospital = new Hospital;
+
+	strncpy(hospital ->nombre, nombre, 100);
+	strncpy(hospital -> direccion, direccion,150);
+	strncpy(hospital ->telefono, telefono,15);
+
+	hospital ->cantidadPacientes = 10;
+	hospital ->cantidadPacientes = 0;
+	hospital ->pacientes = new Paciente[hospital ->capacidadPacientes];
+
+	hospital ->cantidadDoctores= 10;
+	hospital ->cantidadDoctores= 0;
+	hospital ->doctores= new Doctor [hospital ->capacidadDoctores];
+
+	hospital->capacidadCitas = 20;
+	hospital->capacidadCitas = 0;
+	hospital ->citas = new Cita[hospital-> capacidadCitas];
+
+	hospital ->siguienteIdPaciente=1;
+	hospital -> siguienteIdDoctor=1;
+	hospital ->siguienteIdCita=1;
+	hospital ->siguienteIdConsulta=1;
+
+	return hospital;
+}
+
 int main(){
-	int opcionpacientesw=0;
-	int opciondoctorsw;
-	int opcioncitasw;
 	int opciongestion = 0;
 	
 	
@@ -168,6 +197,8 @@ int main(){
 
 switch (opciongestion){
 	case 1:
+	int opcionpacientesw=0;
+	while(opcionpacientesw != 8){
 		cout<<"Menu de pacientes"<<endl;
 		cout<<"1.Registrar nuevo paciente"<<endl;
 		cout<<"2.Buscar paciente por c�dula"<<endl;
@@ -176,17 +207,16 @@ switch (opciongestion){
 		cout<<"5.Actualizar datos del paciente"<<endl;
 		cout<<"6.Listar todos los pacientes"<<endl;
 		cout<<"7.Eliminar paciente"<<endl;
-		cout<<"0. volver al menu principal"<<endl;
+		cout<<"8. volver al menu principal"<<endl;
 		cout<<"Ingrese la opcion que desee:"<<endl;
 		cin>>opcionpacientesw;
 		
 		switch (opcionpacientesw){
-			while(opcionpacientesw != 0){
 			case 1:
 				int cantidad = 0;
-				cout << "Con cuantos pacientes va a iniciar?"
+				cout << "Con cuantos pacientes va a iniciar?";
 				cin>>cantidad;
-				CrearListaDePaciente(cantidad)
+				CrearListaDePaciente(cantidad);
 				cout<<"aqui se encuentra su menu de pacientes"<<endl;
 			break;
 			
@@ -214,7 +244,7 @@ switch (opciongestion){
 				cout<<"Su paciente ha sido eliminado"<<endl;
 			break;
 			
-			case 0:
+			case 8:
 				cout<<"Volviendo al menu principal"<<endl;
 		}			
 		} 
@@ -222,6 +252,8 @@ switch (opciongestion){
 		break;
 		
 	case 2:
+	int opciondoctorsw=0;
+	while (opciondoctorsw!=8){
 		cout<<"1.Registrar nuevo doctor"<<endl;
 		cout<<"2.Buscar doctor por ID"<<endl;
 		cout<<"3.Buscar doctores por especialidad"<<endl;
@@ -229,7 +261,7 @@ switch (opciongestion){
 		cout<<"5.Ver pacientes asignados a doctores"<<endl;
 		cout<<"6.Listar todos los doctores"<<endl;
 		cout<<"7.Eliminar doctor"<<endl;
-		cout<<"0.Volver al menu principal"<<endl;
+		cout<<"8.Volver al menu principal"<<endl;
 		cin>>opciondoctorsw;
 		
 		switch (opciondoctorsw){
@@ -261,14 +293,17 @@ switch (opciongestion){
 		    	cout<<"El doctor fue eliminado"<<endl;
 		    break;
 		    
-		    case 0:
+		    case 8:
 		    	cout<<"volver al menu principal"<<endl;
 		    break;
 		}
+	}
 		
 		break;
 	
 	case 3:
+	int opcioncitasw=0;
+	while (opcioncitasw!=8){
 		cout<<"1.Agendar nueva cita"<<endl;
 		cout<<"2.Cancelar cita"<<endl;
 		cout<<"3.Atender cita"<<endl;
@@ -276,7 +311,7 @@ switch (opciongestion){
 		cout<<"5. Ver citas de un doctor"<<endl;
 		cout<<"6. Ver citas de una fecha"<<endl;
 		cout<<"7. Ver citas pendientes"<<endl;
-		cout<<"0. Volver al menu principal"<<endl;
+		cout<<"8. Volver al menu principal"<<endl;
 		cin>>opcioncitasw;
 		
 		switch (opcioncitasw){
@@ -308,10 +343,11 @@ switch (opciongestion){
 		    	cout<<"Las citas pendientes son"<<endl;
 		    break;
 		    
-		    case 0:
+		    case 8:
 		    	cout<<"Volver al menu principal"<<endl;
 		    break;
 		}
+	}
 		
 		break;
 		
