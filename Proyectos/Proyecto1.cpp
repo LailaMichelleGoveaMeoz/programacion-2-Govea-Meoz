@@ -186,6 +186,7 @@ Hospital *inicializarHospital ( const char *nombre, const char *direccion, const
 	return hospital;
 }
 
+//PACIENTES
 void redimensionararregloPacientes (Hospital *hospital){
 	int nuevaCapacidad = hospital->capacidadPacientes * 2;
 	Paciente * nuevoarreglo= new Paciente[nuevaCapacidad];
@@ -198,10 +199,27 @@ void redimensionararregloPacientes (Hospital *hospital){
 	hospital ->pacientes= nuevoarreglo;
 	hospital -> capacidadPacientes= nuevaCapacidad;
 }
+Paciente* buscarPacientePorCedula (Hospital*hospital, const char*cedula){
+	for (int i=0; i< hospital->cantidadPacientes; i++){
+		if (strcasecmp(hospital->pacientes[i].cedula, cedula)==0){
+			return &hospital->pacientes[i];
+		}
+	}
+	return nullptr;
+}
 
-Paciente *buscarPacientePorCedula(Hospital* hospital, const char* nombre, const char* apellido, const char* cedula, int edad, char sexo){
+Paciente* buscarPacientePorId(Hospital*hospital, int id){
+	for (int i=0; i<hospital->cantidadPacientes; i++){
+		if (hospital->pacientes[i].id == id){
+			return &hospital->paciente[i];
+		}
+	}
+	return nullptr;
+}
+
+Paciente *crearPaciente(Hospital* hospital, const char* nombre, const char* apellido, const char* cedula, int edad, char sexo){
 if (buscarPacientePorCedula (hospital,cedula) != nullptr){
-	cout<< "Error: La cedula ya esta registrada."<< endl;
+	cout<< "Error: La cedula ya se encuentra registrada."<< endl;
 	return nullptr;
 }
 if (hospital ->cantidadPacientes >= hospital ->capacidadPacientes){
@@ -236,6 +254,62 @@ hospital -> cantidadPacientes++;
 return &nuevo;
 }
 
+Paciente ** buscarPacientePorNombre(Hospital*hospital, const char*nombre, int* cantidad){
+	int contador =0;
+	for( int i=0; i< hospital->cantidadPacientes; i++){
+		if (strstr(hospital->pacientes[i].nombre,nombre)){
+			contador++;
+		}
+	}
+	
+	if(contador == 0){
+		*cantidad=0;
+		return nullptr;
+	}
+
+	Paciente** resultados= new Paciente*[contador];
+	int index =0;
+	for (int i=0; i< hospital->cantidadPacientes; i++){
+		if (strstr(hospital->pacientes[i].nombre, nombre)){
+			resultados[index++]= &hospital->pacientes[i];
+		}
+	}
+
+	*cantidad = contador;
+	return resultados;
+}
+
+void mostrarHistorialMedico(Paciente* paciente){
+	if (paciente->cantidadConsultas==0){
+		cout<<"Este paciente no tiene consultas registradas"<<endl;
+		return;
+	}
+
+	cout<<"Historial Medico de"<<paciente->nombre<<","<<paciente->apellido<<endl;
+	cout<< left << setw (12)<< "Fecha"
+	<< setw(8)<< "hora"
+	<< setw(20)<< "Doctor ID"
+	<< setw (30)<< "Diagnostico"
+	<< setw (10)<< "Costo"<< endl;
+	cout<< string (90, '-')<< endl;
+
+	for (int i=0; i <paciente->cantidadConsultas;i++){
+		HistorialMedico& h= paciente->historial[i];
+		cout<< left << setw (12)<< h.fecha
+		<<setw (8)<< h.hora
+		<<setw (20)<< h.idDoctor
+		<<setw (30)<< h.diagnostico
+		<<setw (10)<< h.costo<<endl;
+	}
+}
+
+//DOCTORES
+Doctor* crearDoctor (Hospital*hospital, const char*nombre, const char* apellido, const char* cedula, const char* especialidad, int anosExperiencia,float costoConsulta ){
+	// se itera para verificar que la cedula del doctor no este repetida
+	for (int i=0; i<hospital ->cantidadDoctores; i++){
+		if(strcasecmp(hospital ->doctores[i].cedula,cedula)== 0)
+	}
+}
 int main(){
 	int opciongestion = 0;
 	
