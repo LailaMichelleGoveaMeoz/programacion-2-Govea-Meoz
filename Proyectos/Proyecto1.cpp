@@ -250,17 +250,17 @@ bool eliminarPaciente(Hospital* h, int id) {
                         for (int k = p; k < doc.cantidadPacientes - 1; k++) {//p es la posicion del id que quiero eliminar, como k y p es lo mismo por lo tanto en el siguiente argumento es k<(menor) cantidadPacientes -1 (k=1, cantidadPaciente=4,va desde 1 hasta el tres (4-1=3))
                             doc.pacientesAsignados[k] = doc.pacientesAsignados[k + 1]; // para rellenar el hueco que me quedan en el arreglo luego de que se haya eliminado el ID, el siguiente paciente ahora ocupara el puesto dell anteorior
                         }
-                        doc.cantidadPacientes--;
-                        break;
+                        doc.cantidadPacientes--;// reduce el contador de pacientes registrados
+                        break;// para salir de inmediato el bucle
                     }
                 }
             }
 
             // Compactar arreglo
-            for (int k = i; k < h->cantidadPacientes - 1; k++) {
+            for (int k = i; k < h->cantidadPacientes - 1; k++) { //hace lo mismo que doc.cantidadPaciente pero para cantidadPaciente Hospiatl
                 h->pacientes[k] = h->pacientes[k + 1];
             }
-            h->cantidadPacientes--;
+            h->cantidadPacientes--; 
             return true;
         }
     }
@@ -268,20 +268,19 @@ bool eliminarPaciente(Hospital* h, int id) {
 }
 
 //g) lista de todos los pacientes
-
 void listarPacientes(Hospital* hospital) {
     cout << "\nListado de Pacientes\n";
     cout << left << setw(5) << "ID"
-         << setw(15) << "Nombre"
+         << setw(15) << "Nombre" // setw nos permite acomoda como se va a ver lo que se quiera imprimir cuando se imprima (lo arregla de manera visual)
          << setw(15) << "Apellido"
          << setw(15) << "Cedula de identidad"
          << setw(6) << "Edad"
          << setw(10) << "Consultas" << "\n";
 
-    cout << string(66, '-') << "\n"; // Línea divisoria
+    cout << string(66, '-') << "\n"; // Línea divisoria, es la linea que divide los titulos de la info
 
-    for (int i = 0; i < hospital->cantidadPacientes; i++) {
-        Paciente& p = hospital->pacientes[i];
+    for (int i = 0; i < hospital->cantidadPacientes; i++) { 
+        Paciente& p = hospital->pacientes[i]; // se crea una referencia de cada paciente que vaya iterando
         cout << left << setw(5) << p.id
              << setw(15) << p.nombre
              << setw(15) << p.apellido
@@ -301,7 +300,7 @@ bool agregarHistorialMedico(Paciente* paciente, const char* fecha, const char* h
     // Verificar si hay que duplicar el arreglo
     if (paciente->cantidadHistorial >= paciente->capacidadHistorial) {
         int nuevaCapacidad = paciente->capacidadHistorial * 2;
-        HistorialMedico* nuevoHistorial = new HistorialMedico[nuevaCapacidad];
+        HistorialMedico* nuevoHistorial = new HistorialMedico[nuevaCapacidad];// arreglo dinamico con la nueva capacidad
 
         // Copiar datos existentes
         for (int i = 0; i < paciente->cantidadHistorial; i++) {
@@ -315,20 +314,20 @@ bool agregarHistorialMedico(Paciente* paciente, const char* fecha, const char* h
     }
 
     // Agregar nueva entrada
-    HistorialMedico& h = paciente->historial[paciente->cantidadHistorial];
-    h.idConsulta = paciente->cantidadHistorial + 1;
+    HistorialMedico& h = paciente->historial[paciente->cantidadHistorial];// creando una referencia llamada h al nuevo espacio donde se va a guardar el próximo historial médico del paciente, cantidadHistorial
+    h.idConsulta = paciente->cantidadHistorial + 1;// el id de la consulta va a sar cantiddhisto+1
 
-    strncpy(h.fecha, fecha, 10); h.fecha[10] = '\0';
+    strncpy(h.fecha, fecha, 10); h.fecha[10] = '\0';//para que no se desborde, no se copien mas caracteres de la capacidad maxima asignada
     strncpy(h.hora, hora, 5); h.hora[5] = '\0';
     strncpy(h.diagnostico, diagnostico, 199); h.diagnostico[199] = '\0';
     strncpy(h.tratamiento, tratamiento, 199); h.tratamiento[199] = '\0';
     strncpy(h.medicamentos, medicamentos, 149); h.medicamentos[149] = '\0';
 
-    h.idDoctor = idDoctor;
-    h.costoConsulta = costo;
+    h.idDoctor = idDoctor; //asignando el id del doctor que atendio la cita
+    h.costoConsulta = costo; 
 
-    paciente->cantidadHistorial++;
-    paciente->cantidadConsultas++; // opcional
+    paciente->cantidadHistorial++; //cantidad de historial va a ir incrementando a medida que uno vaya teniendo mas consultas
+    paciente->cantidadConsultas++; // incrementa el contador cada vez que un paciente tenga una consulta
 
     return true;
 }
@@ -342,7 +341,7 @@ void mostrarHistorialMedico(Paciente* paciente) {
 
     cout << "\nHistorial Médico del Paciente:\n";
     for (int i = 0; i < paciente->cantidadHistorial; i++) {
-        HistorialMedico& h = paciente->historial[i];
+        HistorialMedico& h = paciente->historial[i]; // se hace una referencia del historial con el que se este trabajndo, va iterando, y se va a imprimir toda la info
         cout << "\nConsulta #" << h.idConsulta << "\n";
         cout << "Fecha: " << h.fecha << "   Hora: " << h.hora << "\n";
         cout << "Diagnóstico: " << h.diagnostico << "\n";
@@ -359,7 +358,7 @@ Doctor* crearDoctor(Hospital* hospital, const char* nombre, const char* apellido
                     const char* especialidad, int experiencia, float costo,
                     const char* horario, const char* telefono, const char* email) {
     // Verificar si hay espacio suficiente
-    if (hospital->cantidadDoctores >= hospital->capacidadDoctores) {
+    if (hospital->cantidadDoctores >= hospital->capacidadDoctores) {// redimensionar
         int nuevaCapacidad = hospital->capacidadDoctores * 2;
         Doctor* nuevoArray = new Doctor[nuevaCapacidad];
 
@@ -373,7 +372,7 @@ Doctor* crearDoctor(Hospital* hospital, const char* nombre, const char* apellido
     }
 
     // Crear nuevo doctor
-    Doctor& d = hospital->doctores[hospital->cantidadDoctores];
+    Doctor& d = hospital->doctores[hospital->cantidadDoctores];// referencia que apunta hacien el espacio libre donde yo voy a poder guardar aldoctor
     d.id = hospital->siguienteIdDoctor++;
 
     strncpy(d.nombre, nombre, 49); d.nombre[49] = '\0';
@@ -404,16 +403,16 @@ Doctor* crearDoctor(Hospital* hospital, const char* nombre, const char* apellido
 //b) Buscar doctor por ID
 Doctor* buscarDoctorPorId(Hospital* hospital, int id) {
     for (int i = 0; i < hospital->cantidadDoctores; i++) {
-        if (hospital->doctores[i].id == id) return &hospital->doctores[i];
+        if (hospital->doctores[i].id == id) return &hospital->doctores[i];//retorno directamente el espacio de memoria del doctor al que le pertenece al id
     }
-    return NULL;
+    return nullptr;
 }
 
 //c) Buscar doctor por especialidad
 void buscarDoctoresPorEspecialidad(Hospital* hospital, const char* especialidad) {
     cout << "\nDoctores con especialidad en " << especialidad << ":\n";
     for (int i = 0; i < hospital->cantidadDoctores; i++) {
-        Doctor& d = hospital->doctores[i];
+        Doctor& d = hospital->doctores[i]; //se crea un referencia del doctor que se va a trabajar en esa iteracion
         if (strcmp(d.especialidad, especialidad) == 0) {
             cout << "ID: " << d.id << " - " << d.nombre << " " << d.apellido << "\n";
         }
@@ -423,7 +422,7 @@ void buscarDoctoresPorEspecialidad(Hospital* hospital, const char* especialidad)
 //d) asignar paciente a doctor
 bool asignarPacienteADoctor(Doctor* doctor, int idPaciente) {
     if (doctor->cantidadPacientes >= doctor->capacidadPacientes) {
-        int nuevaCapacidad = doctor->capacidadPacientes * 2;
+        int nuevaCapacidad = doctor->capacidadPacientes * 2; 
         int* nuevoArray = new int[nuevaCapacidad];
         for (int i = 0; i < doctor->cantidadPacientes; i++) {
             nuevoArray[i] = doctor->pacientesAsignados[i];
@@ -433,7 +432,7 @@ bool asignarPacienteADoctor(Doctor* doctor, int idPaciente) {
         doctor->capacidadPacientes = nuevaCapacidad;
     }
 
-    doctor->pacientesAsignados[doctor->cantidadPacientes++] = idPaciente;
+    doctor->pacientesAsignados[doctor->cantidadPacientes++] = idPaciente;// va sumando la cantidad de pacienteque se le asugna al doctor y asu vez guarda el id del paciente en el arreglo que guarda que paciente va a tener el doctro
     return true;
 }
 
@@ -442,7 +441,7 @@ void verPacientesDeDoctor(Hospital* hospital, Doctor* doctor) {
     cout << "\n Paciente asignado al doctor es: " << doctor->nombre << " " << doctor->apellido << ":\n";
     for (int i = 0; i < doctor->cantidadPacientes; i++) {
         int idPaciente = doctor->pacientesAsignados[i];
-        Paciente* p = buscarPacientePorId(hospital, idPaciente);
+        Paciente* p = buscarPacientePorId(hospital, idPaciente);// utiliza la funcion buscar por id para darme los datos
         if (p) {
             cout << "ID: " << p->id << " - " << p->nombre << " " << p->apellido << "\n";
         }
@@ -470,7 +469,7 @@ void listarDoctores(Hospital* hospital) {
     }
 }
 
-//Eliminar pacientes
+//Eliminar doctor
 bool eliminarDoctor(Hospital* hospital, int id) {
     for (int i = 0; i < hospital->cantidadDoctores; i++) {
         if (hospital->doctores[i].id == id) {
@@ -510,7 +509,7 @@ bool agendarCita(Hospital* hospital, int idPaciente, int idDoctor, const char* f
     strncpy(c.motivo, motivo, 149); c.motivo[149] = '\0';
     strcpy(c.estado, "Pendiente");
     strcpy(c.observaciones, "");
-    c.atendida = false;
+    c.atendida = false; //la estoy creando
 
     hospital->cantidadCitas++;
     return true;
@@ -519,7 +518,7 @@ bool agendarCita(Hospital* hospital, int idPaciente, int idDoctor, const char* f
 //cancelar las citas
 bool cancelarCita(Hospital* hospital, int idCita) {
     for (int i = 0; i < hospital->cantidadCitas; i++) {
-        if (hospital->citas[i].id == idCita && !hospital->citas[i].atendida) {
+        if (hospital->citas[i].id == idCita && !hospital->citas[i].atendida) { // comparo si el id de la cita que estoy iterando es igual al que puse en la funcion y siveo a ver si la cita ya fue atendida nko puedo cancelar una ya atendida
             strcpy(hospital->citas[i].estado, "Su cita ha sido cancelada");
             hospital->citas[i].atendida = false;
             return true;
@@ -529,11 +528,11 @@ bool cancelarCita(Hospital* hospital, int idCita) {
 }//
 bool horarioOcupado(Hospital* hospital, int idDoctor, const char* fecha, const char* hora) {
     for (int i = 0; i < hospital->cantidadCitas; i++) {
-        Cita& c = hospital->citas[i];
+        Cita& c = hospital->citas[i]; //refrencia de la cita que estoy trabajando
         if (c.idDoctor == idDoctor &&
             strcmp(c.fecha, fecha) == 0 &&
             strcmp(c.hora, hora) == 0 &&
-            strcmp(c.estado, "Pendiente") == 0) {
+            strcmp(c.estado, "Pendiente") == 0) {//si compara todo eso y da 0, ya hay una cita en ese horario
             return true; // Ya hay una cita pendiente en ese horario
         }
     }
@@ -587,7 +586,7 @@ bool atenderCita(Hospital* hospital, int idCita, const char* observaciones) {
     for (int i = 0; i < hospital->cantidadCitas; i++) {
         Cita& c = hospital->citas[i];
 
-        if (c.id == idCita && strcmp(c.estado, "Pendiente") == 0) {
+        if (c.id == idCita && strcmp(c.estado, "Pendiente") == 0) {//iguala la cita de la iteracion con la cita que coloque y el estado de la cita esta pendiente sale atendida
             // Marcar como atendida
             strcpy(c.estado, "Atendida");
             strncpy(c.observaciones, observaciones, 199);
@@ -599,7 +598,7 @@ bool atenderCita(Hospital* hospital, int idCita, const char* observaciones) {
             Doctor* d = buscarDoctorPorId(hospital, c.idDoctor);
 
             if (p && d) {
-                agregarHistorialMedico(p, c.fecha, c.hora, c.motivo, "Tratamiento aplicado", "Medicamentos recetados", d->id, d->costoConsulta);
+                agregarHistorialMedico(p, c.fecha, c.hora, c.motivo, "Tratamiento aplicado", "Medicamentos recetados", d->id, d->costoConsulta);//se compara que ambos id existen para agregar la info al historial del paciente
             }
 
             return true;
@@ -636,16 +635,16 @@ delete[] hospital->doctores;
 
 // Menú principal
 int main() {
-    Hospital* hospital = inicializarHospital("Hospital Universitario", "Av. Guajira", "+58 261752315");
+    Hospital* hospital = inicializarHospital("Hospital Universitario de Caracas", "Av. Guajira", "+58 261752315");
     int opcion = 0;
 
     while (opcion != 4) {
-        cout << "\n--- MENÚ PRINCIPAL ---\n";
-        cout << "1. Gestión de Pacientes\n";
-        cout << "2. Gestión de Doctores \n";
-        cout << "3. Gestión de Citas \n";
+        cout << "\n--- MENU PRINCIPAL ---\n";
+        cout << "1. Gestion de Pacientes\n";
+        cout << "2. Gestion de Doctores \n";
+        cout << "3. Gestion de Citas \n";
         cout << "4. Salir\n";
-        cout << "Seleccione una opción: ";
+        cout << "Seleccione una opcion: ";
         cin >> opcion;
 
         switch (opcion) {
