@@ -39,17 +39,17 @@ struct Paciente {
     char telefono[15];
     char direccion[100];
     char email[50];
-    HistorialMedico* historial;
+    HistorialMedico* historial; // apunta hacia la estructura de historial medico para hacer un array dinamico de la estructura HistorialMedico (cada paciente va a tener su propio histo)
     int cantidadConsultas;
-    int capacidadHistorial;
     int capacidadConsultas;
+    int capacidadHistorial; 
     int cantidadHistorial;
-    int* citasAgendadas;
+    int* citasAgendadas; // Puntero para poder hacer un array dinamico porque la cantidad de citas puede aumentar con el tiempo
     int cantidadCitas;
     int capacidadCitas;
     char alergias[500];
     char observaciones[500];
-    bool activo;
+    bool activo; // inidcar si el paciente sigue en el sistema
 };
 
 
@@ -64,67 +64,67 @@ struct Doctor {
     char horarioAtencion[50];
     char telefono[15];
     char email[50];
-    int* pacientesAsignados;
+    int* pacientesAsignados;// puntero para hacer array dinamico de pacientes asignados porque el tamano puede aumentar con el tiempo
     int cantidadPacientes;
     int capacidadPacientes;
-    int* citasAgendadas;
+    int* citasAgendadas; // perimite hacer arreglo dinamico porque el tamano puede aumentar con el tiempo
     int cantidadCitas;
     int capacidadCitas;
-    bool disponible;
+    bool disponible; // 
 };
 struct Hospital {
     char nombre[100];
     char direccion[150];
     char telefono[15];
-    Paciente* pacientes;
+    Paciente* pacientes; //puntero que prmite crear arrays dinamicos de los pacientes registrados,apunta a la estructura paciente
     int cantidadPacientes;
     int capacidadPacientes;
-    int siguienteIdPaciente;
+    int siguienteIdPaciente; // asigna los IDs de los pacientes y luego va incrementando a medida que se vayan registrando nuevos pacientes
     int siguienteIdConsulta;
-    Doctor* doctores;
+    Doctor* doctores; //puntero que permite crear un arrays dinamico de los doctores que se vayan a registrar, apunta a la estrutra doctor
     int cantidadDoctores;
     int capacidadDoctores;
-    int siguienteIdDoctor;
-    Cita* citas;
+    int siguienteIdDoctor;// asigna los ID y luego va icrementado
+    Cita* citas; // puntero que permite rear un array dinamico de laas citas registradas
     int cantidadCitas;
     int capacidadCitas;
-    int siguienteIdCita;
+    int siguienteIdCita; // asigna lso ID y luego va incrementado
 
 };
 
 
 // Inicializar hospital
-Hospital* inicializarHospital(const char* nombre, const char* direccion, const char* telefono) {
-    Hospital* hospital = new Hospital;
-    strncpy(hospital->nombre, nombre, 100);
-    strncpy(hospital->direccion, direccion, 150);
+Hospital* inicializarHospital(const char* nombre, const char* direccion, const char* telefono){// el tipo de la funcion es Hospital* (direccion hospital), la funcion tiene como parametro nobre,direccion,telefono
+    Hospital* hospital = new Hospital;// se crea Hospital en memoria dinamica, guarda esa direccion en el ptr y en el return se entraga la direccion
+    strncpy(hospital->nombre, nombre, 100);// strncpy para copiar cadenas de caracteres
+    strncpy(hospital->direccion, direccion, 150);// se utiliza minuscula porque quiero acceder especificamente al hospital que cree en memoria dinamica (con el que estoy trabajando)
     strncpy(hospital->telefono, telefono, 15);
     hospital->capacidadPacientes = 10;
     hospital->cantidadPacientes = 0;
-    hospital->pacientes = new Paciente[hospital->capacidadPacientes];
-    hospital->siguienteIdPaciente = 1;
+    hospital->pacientes = new Paciente[hospital->capacidadPacientes];//crea array dinamico de pacientes con capacidad de 10, new porque puede aumentar de tamano
+    hospital->siguienteIdPaciente = 1;// Id del primero en registrase 
     hospital->siguienteIdConsulta = 1;
     hospital->capacidadDoctores = 10;
 hospital->cantidadDoctores = 0;
-hospital->doctores = new Doctor[hospital->capacidadDoctores];
+hospital->doctores = new Doctor[hospital->capacidadDoctores]; //crea array dinamico de pacientes con capacidad de 10, new porque puede aumentar de tamano
 hospital->siguienteIdDoctor = 1;
 hospital->capacidadCitas = 20;
 hospital->cantidadCitas = 0;
 hospital->siguienteIdCita = 1;
-hospital->citas = new Cita[hospital->capacidadCitas];
+hospital->citas = new Cita[hospital->capacidadCitas];//crea array dinamico de pacientes con capacidad de 20, new porque puede aumentar de tamano
 
 
-    return hospital;
+    return hospital;//retorna la direccion guardada en el puntero hospital
 }
 
 // b) Buscar paciente por cedula
-Paciente* buscarPacientePorCedula(Hospital* hospital, const char* cedulaBuscada) {
+Paciente* buscarPacientePorCedula(Hospital* hospital, const char* cedulaBuscada){//funcion que me va a servir para varios pacientes
     for (int i = 0; i < hospital->cantidadPacientes; i++) {
-        if (strcmp(hospital->pacientes[i].cedula, cedulaBuscada) == 0) {
+        if (strcmp(hospital->pacientes[i].cedula, cedulaBuscada) == 0) {//strcmp se utiliza para comprar cadenas de caracteres, caracter por caracter. si son iguales me da 0
             return &hospital->pacientes[i];
         }
     }
-    return NULL; 
+    return nullptr; 
 }
 bool cedulaExiste(Hospital* hospital, const char* cedulaBuscada) {
     for (int i = 0; i < hospital->cantidadPacientes; i++) {
@@ -154,24 +154,24 @@ Paciente* crearPaciente(Hospital* hospital, const char* nombre, const char* apel
     for (int i = 0; i < hospital->cantidadPacientes; i++) {
         if (strcmp(hospital->pacientes[i].cedula, cedula) == 0) {
             cout << " Esta cédula ya se encuentra registrada.\n";
-            return nullptr;
+            return nullptr;// para saber si ya el paciente esta registrado
         }
     }
-
-    if (hospital->cantidadPacientes >= hospital->capacidadPacientes) {
-        int nuevaCapacidad = hospital->capacidadPacientes * 2;
-        Paciente* nuevoArray = new Paciente[nuevaCapacidad];
-        for (int i = 0; i < hospital->cantidadPacientes; i++) {
+//redimensionar arreglos de pacientes
+    if (hospital->cantidadPacientes >= hospital->capacidadPacientes) { //compara la cantidad de pacientes para saber si esta full
+        int nuevaCapacidad = hospital->capacidadPacientes * 2;// nueva capcidad va a ser el doble de la vieja
+        Paciente* nuevoArray = new Paciente[nuevaCapacidad]; // vuelve al nuevo array dinamico
+        for (int i = 0; i < hospital->cantidadPacientes; i++) { //itera para copiar los datos del viejo al nuevo
             nuevoArray[i] = hospital->pacientes[i];
         }
-        delete[] hospital->pacientes;
-        hospital->pacientes = nuevoArray;
+        delete[] hospital->pacientes;// libero el arreglo anterior, puntero de un arreglo
+        hospital->pacientes = nuevoArray; // reutilizo el puntero
         hospital->capacidadPacientes = nuevaCapacidad;
     }
 
-    Paciente& nuevo = hospital->pacientes[hospital->cantidadPacientes];
+    Paciente& nuevo = hospital->pacientes[hospital->cantidadPacientes];//me permite registrar un nuevo paciente. se esta creando una referencia al espacio en donde se va a guardar el nuevo paciente, que es el espacio libre en la cantidad del arreglo
     nuevo.id = hospital->siguienteIdPaciente++;
-    strncpy(nuevo.nombre, nombre, 50);
+    strncpy(nuevo.nombre, nombre, 50);// destino, origen, tamano-1
     strncpy(nuevo.apellido, apellido, 50);
     strncpy(nuevo.cedula, cedula, 20);
     nuevo.edad = edad;
@@ -185,7 +185,8 @@ Paciente* crearPaciente(Hospital* hospital, const char* nombre, const char* apel
     nuevo.activo = true;
     nuevo.capacidadConsultas = 5;
     nuevo.cantidadHistorial = 0;
-    nuevo.historial = new HistorialMedico[nuevo.capacidadHistorial];
+    nuevo.capacidadHistorial=5;
+    nuevo.historial = new HistorialMedico[nuevo.capacidadHistorial]; // se le esta creando su array dinmico de historial medico porque cada paciente
     nuevo.capacidadCitas = 5;
     nuevo.cantidadCitas = 0;
     nuevo.citasAgendadas = new int[nuevo.capacidadCitas];
@@ -196,10 +197,10 @@ Paciente* crearPaciente(Hospital* hospital, const char* nombre, const char* apel
 
 
 //d) buscar pacientes por nombre
-void buscarPacientesPorNombre(Hospital* h, const char* fragmento) {
+void buscarPacientesPorNombre(Hospital* h, const char* fragmento) { // puntero alhospital que contiene todos los pacientes regsitrados
     cout << "\nPacientes que coinciden con \"" << fragmento << "\":\n";
     for (int i = 0; i < h->cantidadPacientes; i++) {
-        if (strstr(h->pacientes[i].nombre, fragmento) != NULL) {
+        if (strstr(h->pacientes[i].nombre, fragmento) != nullptr) { // strstr para buscar una subcadena en una cadena, en este caso un frangmento del nombre
             cout << "ID: " << h->pacientes[i].id << " | " << h->pacientes[i].nombre << " " << h->pacientes[i].apellido << "\n";
         }
     }
@@ -207,9 +208,9 @@ void buscarPacientesPorNombre(Hospital* h, const char* fragmento) {
 
 
 //e) Actualizar paciente
-bool actualizarPaciente(Hospital* hospital, int id) {
-    Paciente* p = buscarPacientePorId(hospital, id);
-    if (!p) return false;
+bool actualizarPaciente(Hospital* hospital, int id) {// bool para saber si ya el paciente se encuentra regristrado
+    Paciente* p = buscarPacientePorId(hospital, id); // esta utilizando la funcion que ya creamos
+    if (!p) return false;// si no se encuentra por id el paciente no esta regristrado
 
     cin.ignore();
     cout << "Nombre actual: " << p->nombre << "\nNuevo nombre: "; cin.getline(p->nombre, 50);
@@ -231,23 +232,23 @@ bool actualizarPaciente(Hospital* hospital, int id) {
 bool eliminarPaciente(Hospital* h, int id) {
     for (int i = 0; i < h->cantidadPacientes; i++) {
         if (h->pacientes[i].id == id) {
-            delete[] h->pacientes[i].historial;
+            delete[] h->pacientes[i].historial;// aqui solo se libera el historial
 
             // Eliminar citas
-            for (int j = 0; j < h->cantidadCitas; j++) {
-                if (h->citas[j].idPaciente == id) {
-                    h->citas[j].idPaciente = -1;
-                    strcpy(h->citas[j].estado, "Cancelada");
+            for (int j = 0; j < h->cantidadCitas; j++) {// me va a iterar la cantidad de citas del paciente uno, esta funcion se encentra dentro de la iteracion de pacientes ln 233
+                if (h->citas[j].idPaciente == id) {//verifica que la cita pertenece al paciente que se va a eliminar
+                    h->citas[j].idPaciente = -1;// es para decir que esa cita ya no esta asignada a nadie, -1 se utiliza comunmente para indicar que no haya nada asignado porque no hay ningun id que sea -1
+                    strcpy(h->citas[j].estado, "Cancelada"); // para que salgaen estado que fue cancelada
                 }
             }
 
             // Remover de doctores
             for (int d = 0; d < h->cantidadDoctores; d++) {
-                Doctor& doc = h->doctores[d];
-                for (int p = 0; p < doc.cantidadPacientes; p++) {
-                    if (doc.pacientesAsignados[p] == id) {
-                        for (int k = p; k < doc.cantidadPacientes - 1; k++) {
-                            doc.pacientesAsignados[k] = doc.pacientesAsignados[k + 1];
+                Doctor& doc = h->doctores[d]; // crea una referencia al doctor que estoy iterando
+                for (int p = 0; p < doc.cantidadPacientes; p++) {// estoy viendo la cantidad de pacientes que tiene ese docto
+                    if (doc.pacientesAsignados[p] == id) {// verifica que el paciente este asignado al doctro
+                        for (int k = p; k < doc.cantidadPacientes - 1; k++) {//p es la posicion del id que quiero eliminar, como k y p es lo mismo por lo tanto en el siguiente argumento es k<(menor) cantidadPacientes -1 (k=1, cantidadPaciente=4,va desde 1 hasta el tres (4-1=3))
+                            doc.pacientesAsignados[k] = doc.pacientesAsignados[k + 1]; // para rellenar el hueco que me quedan en el arreglo luego de que se haya eliminado el ID, el siguiente paciente ahora ocupara el puesto dell anteorior
                         }
                         doc.cantidadPacientes--;
                         break;
