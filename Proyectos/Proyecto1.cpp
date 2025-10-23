@@ -635,7 +635,7 @@ delete[] hospital->doctores;
 
 // Menú principal
 int main() {
-    Hospital* hospital = inicializarHospital("Hospital Universitario de Caracas", "Av. Guajira", "+58 261752315");
+    Hospital* hospital = inicializarHospital("Hospital Universitario de Caracas", "Av. Minerva, UCV Caracas, Distrito Capital (Venezuela), 1040", "+58 04126067652");
     int opcion = 0;
 
     while (opcion != 4) {
