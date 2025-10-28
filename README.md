@@ -14,6 +14,7 @@ struct HistorialMedico {
     int idDoctor;
     float costo;
 }; 
+
 En esta estructura se colocaron los datos necesarios para tener un historial medico, int idConsulta para saber que numero de consulta es, Char fecha y hora para saber a que hora se llevo
 acabo la consulta, Char diagnostico,tratamiento, medicamentos es informacion medica proporcionada por el doctor que atendio la consulta, int idDoctor es para saber el id del doctor que 
 fue asignado y por ultimo float costo que me permite saber el precio de la consulta.
