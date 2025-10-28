@@ -4,14 +4,23 @@ mejorar la parte administrativa del hospital obteniendo una mejor organizacion d
 eficiente. Mejorando la experiencia del paciente y dep personal medico de la institucion. 
 
 Explicacion de las estructuras
+
 struct HistorialMedico {
+
     int idConsulta;
+    
     char fecha[11];
+    
     char hora[6];
+    
     char diagnostico[200];
+    
     char tratamiento[200];
+    
     char medicamentos[150];
+    
     int idDoctor;
+    
     float costo;
 }; 
 
